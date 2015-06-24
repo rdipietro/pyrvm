@@ -31,7 +31,7 @@ class RVM(object):
     --------
     >>> from math import cos, sin, pi
     >>> import numpy as np
-    >>> from rvm import RVM
+    >>> from pyrvm import RVM
     >>> # Create points that spiral along the z axis, with higher rankings at lower
     >>> # values of z.
     >>> n_points = 50
@@ -49,12 +49,12 @@ class RVM(object):
     >>> # Since we used a linear kernel, we can determine the weight vector in the
     >>> # original space that determines ranking. It should be in the direction
     >>> # of -z.
-    >>> print sum(ranker._alpha[ranker._alpha != 0, np.newaxis] * ranker._rank_vectors, 0)
+    print sum(ranker._alpha[ranker._alpha != 0, np.newaxis] * ranker._rank_vectors, 0)
     [  1.88497489e-05   1.58543033e-05  -2.45000255e+01]
     >>> # Now let's see how we do on the other half of the data.
     >>> print ranker.predict(X[1::2, :])
     [ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24]
-    
+
     """
     
     def __init__(self, C=1.0, kernel='linear', 
