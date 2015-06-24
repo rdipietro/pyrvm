@@ -48,7 +48,7 @@ Out<rvm.RVM at 0x116f2d0d0>
 Documentation
 -------------
 
-The API reference can be found [here](http://htmlpreview.github.com/?https://github.com/rdipietro/pyrvm/doc/_build/html/pyrvm.html).
+The API reference can be found [here](http://htmlpreview.github.com/?https://github.com/rdipietro/pyrvm/blob/master/doc/_build/html/pyrvm.html).
 
 Dependencies
 ------------
