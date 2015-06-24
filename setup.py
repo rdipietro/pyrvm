@@ -12,6 +12,7 @@ setup(
     author_email = 'rdipietro@gmail.com',
     url = 'https://github.com/rdipietro/pyrvm',
     download_url = 'https://github.com/rdipietro/pyrvm/tarball/0.1',
+    install_requires = ['numpy', 'sklearn', 'pulp'],
     keywords = [],
     classifiers = [],
 )
