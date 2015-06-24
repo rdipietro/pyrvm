@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyrvm package &mdash; pyrvm 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyrvm 0.1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">pyrvm 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="pyrvm-package">
+<h1>pyrvm package<a class="headerlink" href="#pyrvm-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pyrvm.rvm">
+<span id="pyrvm-rvm-module"></span><h2>pyrvm.rvm module<a class="headerlink" href="#module-pyrvm.rvm" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyrvm.rvm.RVM">
+<em class="property">class </em><tt class="descclassname">pyrvm.rvm.</tt><tt class="descname">RVM</tt><big>(</big><em>C=1.0</em>, <em>kernel='linear'</em>, <em>solver=&lt;pulp.solvers.GLPK_CMD instance at 0x105f4f1b8&gt;</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#pyrvm.rvm.RVM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Ranking Vector Machine</p>
+<p>Learn and predict orderings of vectors using large-margin criteria.</p>
+<p>This is an implementation of the ranking-vector-machine algorithm from
+Yu, Hwanjo and Kim, Sungchul. &#8220;SVM Tutorial: Classification, Regression and
+Ranking.&#8221; Handbook of Natural Computing. Springer Berlin Heidelberg, 2012.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>C</strong> : float, optional (default=1.0)</p>
+<blockquote>
+<div><p>Slack parameter.</p>
+</div></blockquote>
+<p><strong>kernel</strong> : string, optional (default=&#8217;linear&#8217;)</p>
+<blockquote>
+<div><p>Specifies the kernel type to be used in the algorithm. &#8216;linear&#8217;,
+&#8216;rbf&#8217;, &#8216;chi2&#8217;, or a callable are common options. See
+<cite>sklearn.metrics.pairwise.pairwise_kernels</cite>.</p>
+</div></blockquote>
+<p><strong>solver</strong> : pulp.solvers.LpSolver, optional (default=pulp.solvers.GLPK(msg=0))</p>
+<blockquote>
+<div><p>The solver used for the linear program. See <cite>pulp.solvers</cite>.</p>
+</div></blockquote>
+<p class="last"><strong>verbose</strong> : boolean, optional (default=False)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">cos</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">pi</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rvm</span> <span class="kn">import</span> <span class="n">RVM</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Create points that spiral along the z axis, with higher rankings at lower</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># values of z.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n_points</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">[[</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="mi">5</span><span class="o">*</span><span class="n">t</span><span class="p">),</span> <span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="mi">5</span><span class="o">*</span><span class="n">t</span><span class="p">),</span> <span class="n">t</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_points</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># This algorithm is sensitive to constant shifts. To see this, uncomment</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># this mean subtraction; we&#39;ll see the algorithm fail.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span> <span class="o">-</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_points</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Train a linear RVM using half of the data. We keep the slack penalty C high</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># here because we know that the points can be ranked linearly with no errors.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ranker</span> <span class="o">=</span> <span class="n">RVM</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">100.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ranker</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">,</span> <span class="p">:],</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">])</span>
+<span class="go">Out&lt;rvm.RVM at 0x116f2d0d0&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Since we used a linear kernel, we can determine the weight vector in the</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># original space that determines ranking. It should be in the direction</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># of -z.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ranker</span><span class="o">.</span><span class="n">_alpha</span><span class="p">[</span><span class="n">ranker</span><span class="o">.</span><span class="n">_alpha</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">ranker</span><span class="o">.</span><span class="n">_rank_vectors</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">[  1.88497489e-05   1.58543033e-05  -2.45000255e+01]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Now let&#39;s see how we do on the other half of the data.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">ranker</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">,</span> <span class="p">:])</span>
+<span class="go">[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24]</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="pyrvm.rvm.RVM.decision_function">
+<tt class="descname">decision_function</tt><big>(</big><em>X</em><big>)</big><a class="headerlink" href="#pyrvm.rvm.RVM.decision_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scores related to the ordering of the samples X.</p>
+<p>Note that higher scores correspond to higher rankings. For example,
+for three ordered samples (say ranks 1, 2, 3) we would expect the
+corresponding scores to decrease (say 9.5, 6.2, 3.5).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : array-like, shape = [n_samples, n_features]</p>
+<blockquote>
+<div><p>Training vectors.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>scores</strong> : array-like, shape = [n_samples]</p>
+<blockquote class="last">
+<div><p>The higher the score, the higher the rank. For example,
+if the x_1&#8217;s rank is 1 and x_2&#8217;s rank is 2, then
+x_1&#8217;s score will be higher than x_2&#8217;s score.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrvm.rvm.RVM.fit">
+<tt class="descname">fit</tt><big>(</big><em>X</em>, <em>y</em><big>)</big><a class="headerlink" href="#pyrvm.rvm.RVM.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the RVM model to the given training data.</p>
+<p>Pairs of unequal ordering are used for training. For example, if
+rank(x_1) = rank(x_2) = 1 and rank(x_3) = 2, then the pairs
+(x_1, x_3) and (x_2, x_3) will be used to train the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : array-like, shape = [n_samples, n_features]</p>
+<blockquote>
+<div><p>Training vectors.</p>
+</div></blockquote>
+<p><strong>y</strong> : array-like, shape = [n_samples]</p>
+<blockquote>
+<div><p>Training ordering with one rank per sample.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> : object</p>
+<blockquote class="last">
+<div><p>Returns self.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrvm.rvm.RVM.predict">
+<tt class="descname">predict</tt><big>(</big><em>X</em><big>)</big><a class="headerlink" href="#pyrvm.rvm.RVM.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the ordering of the samples X.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> : array-like, shape = [n_samples, n_features]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>y</strong> : array-like, shape = [n_samples]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrvm.rvm.RVM.score">
+<tt class="descname">score</tt><big>(</big><em>X</em>, <em>y</em><big>)</big><a class="headerlink" href="#pyrvm.rvm.RVM.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performance metric based on Kendall&#8217;s tau metric.</p>
+<p>This is (the number of true pairs we predicted correctly) / (the total
+number of true pairs).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : array-like, shape = [n_samples, n_features]</p>
+<p><strong>y</strong> : array-like, shape = [n_samples]</p>
+<blockquote>
+<div><p>True ordering for X.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>score</strong> : float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrvm.rvm.kendall_tau_metric">
+<tt class="descclassname">pyrvm.rvm.</tt><tt class="descname">kendall_tau_metric</tt><big>(</big><em>y_true</em>, <em>y_pred</em><big>)</big><a class="headerlink" href="#pyrvm.rvm.kendall_tau_metric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performance metric based on Kendall&#8217;s tau metric.</p>
+<p>This is (the number of true pairs we predicted correctly) / (the total
+number of true pairs).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y_true</strong> : array-like, shape = [n_samples]</p>
+<blockquote>
+<div><p>True rankings.</p>
+</div></blockquote>
+<p><strong>y_pred</strong> : array-like, shape = [n_samples]</p>
+<blockquote>
+<div><p>Predicted rankings.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>score</strong> : float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrvm.rvm.ranked_index_pairs">
+<tt class="descclassname">pyrvm.rvm.</tt><tt class="descname">ranked_index_pairs</tt><big>(</big><em>y</em><big>)</big><a class="headerlink" href="#pyrvm.rvm.ranked_index_pairs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all index pairs that satisfy y[i] &lt; y[j].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y</strong> : array-like, shape = [n_samples]</p>
+<blockquote>
+<div><p>An ordering</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>index_pairs</strong> : list</p>
+<blockquote class="last">
+<div><p>List of tuples, each being one index pair (i, j)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pyrvm package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pyrvm.rvm">pyrvm.rvm module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pyrvm.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">pyrvm 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Robert DiPietro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
