@@ -7,7 +7,7 @@ This is an implementation of the ranking-vector-machine algorithm from
 Yu, Hwanjo and Kim, Sungchul. "SVM Tutorial: Classification, Regression and
 Ranking." Handbook of Natural Computing. Springer Berlin Heidelberg, 2012.
 
-RVMs are similar to ranking 1-norm SVMs, but can be trained more efficiently.
+RVMs are similar to 1-norm ranking SVMs, but can be trained more efficiently.
 
 Installation
 ------------
